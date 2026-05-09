@@ -56,7 +56,11 @@ double mean_abs_error(
     const std::vector<double> &orig_signal,
     const std::vector<double> &restored_signal
 ) {
-    // MAE между сигналами
+    /*MAE между сигналами
+    
+    orig_signal : исходный сигнал в формате double
+    restored_signal : восстановленный сигнал сигнал в формате double
+    */
     double sum = 0.0;
     const size_t size = std::min(orig_signal.size(), restored_signal.size());
     if (size == 0) {
@@ -73,7 +77,11 @@ double max_abs_error(
     const std::vector<double>& orig_signal,
     const std::vector<double>& restored_signal
 ) {
-    // Максимальная ошибка между сигналами
+    /* Максимальная ошибка между сигналами
+    
+    orig_signal : исходный сигнал в формате double
+    restored_signal : восстановленный сигнал сигнал в формате double
+    */
     double max_error = 0.0;
     const std::size_t size = std::min(orig_signal.size(), restored_signal.size());
     if (size == 0) {

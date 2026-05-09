@@ -5,7 +5,6 @@
 
 const double PI = 3.14159265358979323846;
 const double TWO_PI = 2.0 * PI;
-const double SAMPLE_RATE = 100.0;
 
 static double reduce_phase(double x) {
     // Приведение аргумента x к диапазону [-pi/2; pi/2]
@@ -50,7 +49,8 @@ std::vector<double> generate_sine(
     double frequency,
     double start_time,
     double end_time,
-    double eps
+    double eps,
+    double sample_rate
 ) {
     /* Генерация массива отсчетов синусоидального сигнала
     
@@ -64,12 +64,12 @@ std::vector<double> generate_sine(
         return signal;
     }
 
-    size_t sample_count = static_cast<std::size_t>(SAMPLE_RATE * (end_time - start_time));
+    size_t sample_count = static_cast<std::size_t>(sample_rate * (end_time - start_time));
     signal.reserve(sample_count);
 
     for (size_t n = 0; n < sample_count; ++n) {
         const double x_reduced = reduce_phase(
-            TWO_PI * frequency * (start_time + static_cast<double>(n) / SAMPLE_RATE)
+            TWO_PI * frequency * (start_time + static_cast<double>(n) / sample_rate)
         );
         signal.push_back(sine_taylor(x_reduced, eps));
     }
