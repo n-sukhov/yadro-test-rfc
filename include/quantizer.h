@@ -4,7 +4,12 @@
 
 std::vector<int16_t> quantize16(const std::vector<double> &signal);
 std::vector<double> dequantize16(const std::vector<int16_t> &quant_signal);
-std::vector<double> calc_qauntizer_err(
+
+double mean_abs_error(
     const std::vector<double> &orig_signal,
     const std::vector<double> &restored_signal
+);
+double max_abs_error(
+    const std::vector<double>& orig_signal,
+    const std::vector<double>& restored_signal
 );
