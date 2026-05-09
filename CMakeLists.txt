@@ -6,6 +6,7 @@ set(headers_dir ./include)
 set(source_dir ./src)
 
 set(headers
+    ${headers_dir}/sine_math.h
     ${headers_dir}/signal_generator.h
     ${headers_dir}/quantizer.h
     ${headers_dir}/interpolation.h
@@ -14,6 +15,7 @@ set(headers
 
 set(sources
     ${source_dir}/main.cpp
+    ${source_dir}/sine_math.cpp
     ${source_dir}/signal_generator.cpp
     ${source_dir}/quantizer.cpp
     ${source_dir}/interpolation.cpp
