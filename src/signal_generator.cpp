@@ -17,12 +17,14 @@ static double reduce_phase(double x) {
     return x;
 }
 
-double sine_taylor(double x, double eps) {
+double sine_taylor(double x0, double eps) {
     /* Разложение синуса в ряд Тейлора
 
     x : аргумент функции
     eps : точность
     */
+    double x = reduce_phase(x0);
+
     double func = x;
     int n = 1;
     double factorial_member = 1;
@@ -68,9 +70,9 @@ std::vector<double> generate_sine(
     signal.reserve(sample_count);
 
     for (size_t n = 0; n < sample_count; ++n) {
-        const double x_reduced = reduce_phase(
-            TWO_PI * frequency * (start_time + static_cast<double>(n) / sample_rate)
-        );
+        const double x_reduced = TWO_PI * frequency * 
+            (start_time + static_cast<double>(n) / sample_rate);
+            
         signal.push_back(sine_taylor(x_reduced, eps));
     }
 
