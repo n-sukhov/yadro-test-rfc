@@ -1,6 +1,5 @@
 #include "sine_math.h"
 #include <cmath>
-#include <cstddef>
 
 static double reduce_phase(double x) {
     // Приведение аргумента x к диапазону [-pi/2; pi/2]

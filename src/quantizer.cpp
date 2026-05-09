@@ -17,12 +17,7 @@ std::vector<int16_t> quantize16(const std::vector<double> &signal) {
     for (double x : signal) {
         x = std::clamp(x, -1.0, 1.0);
         int16_t qx;
-
-        if (x >= 0) {
-            qx = static_cast<int16_t>(round(x*std::numeric_limits<int16_t>::max()));
-        } else {
-            qx = static_cast<int16_t>(round(-x*std::numeric_limits<int16_t>::min()));
-        }
+        qx = static_cast<int16_t>(round(x*std::numeric_limits<int16_t>::max()));
         quant_signal.push_back(qx);
     }
     return quant_signal;
@@ -41,12 +36,7 @@ std::vector<double> dequantize16(const std::vector<int16_t> &quant_signal) {
 
     for (int16_t qx : quant_signal) {
         double x;
-        
-        if (qx >= 0) {
-            x = static_cast<double>(qx) / static_cast<double>(std::numeric_limits<int16_t>::max());
-        } else {
-            x = - static_cast<double>(qx) / static_cast<double>(std::numeric_limits<int16_t>::min());
-        }
+        x = static_cast<double>(qx) / static_cast<double>(std::numeric_limits<int16_t>::max());
         signal.push_back(x);
     }
     return signal;
