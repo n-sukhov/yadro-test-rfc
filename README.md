@@ -8,22 +8,47 @@
 mkdir build
 cd build
 cmake ..
-make
+cmake --build .
 ```
+
+---
 
 Для запуска задания необходимо выполнить:
 
-```sh
-# Автоматический режим (запуск предустановленных тестов)
-./yadro_test_rfc auto
+##### Автоматический режим (запуск предустановленных тестов)
 
-# Ввод параметров для генерации синуса вручную
+Linux / macOS:
+
+```sh
+./yadro_test_rfc auto
+```
+
+Windows:
+
+
+```bat
+yadro_test_rfc.exe auto
+```
+
+##### Ввод параметров для генерации синуса вручную
+
+Linux / macOS:
+
+```sh
 ./yadro_test_rfc manual
 ```
+
+Windows:
+
+```bat
+yadro_test_rfc.exe manual
+```
+
+---
 
 **Анализ с визуализацией находится в блокноте analysis.ipynb.**
 
 *Если необходима установка python-зависимостей для проверки:*
-```shel
+```sh
 pip install -r requirements.txt
 ```
