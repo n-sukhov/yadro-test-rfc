@@ -19,7 +19,6 @@ set(sources
     ${source_dir}/signal_generator.cpp
     ${source_dir}/quantizer.cpp
     ${source_dir}/interpolation.cpp
-    ${source_dir}/utils.cpp
 )
 
 
