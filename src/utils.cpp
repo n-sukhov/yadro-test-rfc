@@ -33,7 +33,8 @@ void process_test(const test_pack& test) {
     std::cout << "\n\n";
 
     size_t size100 = static_cast<size_t>((test.end_time - test.start_time) * 100.0);
-    size_t size200 = static_cast<size_t>((test.end_time - test.start_time) * 200.0);
+    size_t size200 = static_cast<size_t>((test.end_time - test.start_time) * 200.0) - 1;
+    //-1 тк интерполяция строит функцию только между точками
 
     std::vector<double> hz100(size100);
     std::vector<double> hz200(size200);
@@ -89,13 +90,13 @@ void analyze_test_signal(
     std::vector<double> signal200 = generate_sine(
         frequency,
         0.0,
-        static_cast<double>(original_signal.size()) / 100.0,
+        static_cast<double>(original_signal.size()) / 100.0 - 0.005,
         0.000000001,
         200.0
     );
 
     std::vector<int16_t> q200 = quantize16(signal200);
-    std::vector<int16_t> lin_fixed = interpolate2_lin_fixed_point(q200);
+    std::vector<int16_t> lin_fixed = interpolate2_lin_fixed_point(q);
 
     std::string base =
         DATA_FOLDER +
