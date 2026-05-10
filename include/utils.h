@@ -5,6 +5,31 @@
 #include <fstream>
 #include <cstddef>
 #include <stdexcept>
+#include <sstream>
+#include <iomanip>
+#include <filesystem>
+#include <cstdint>
+
+
+
+const std::string DATA_FOLDER = "data/";
+struct test_pack {
+    std::vector<double> frequencies;
+    double start_time;
+    double end_time;
+};
+
+
+void ensure_data_dir();
+std::string format_double(double x, int precision = 2);
+
+void process_test(const test_pack& test);
+void analyze_test_signal(
+    double frequency,
+    const std::vector<double>& original_signal,
+    const std::vector<double>& hz100,
+    const std::vector<double>& hz200
+);
 
 template <typename T>
 void csv_write(

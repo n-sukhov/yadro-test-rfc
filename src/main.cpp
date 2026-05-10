@@ -6,32 +6,7 @@
 #include <cstddef>
 #include <vector>
 #include <string>
-#include <filesystem>
-#include <fstream>
-#include <stdexcept>
-#include <sstream>
 #include <cmath>
-#include <iomanip>
-
-const std::string DATA_FOLDER = "data/";
-struct test_pack {
-    std::vector<double> frequencies;
-    double start_time;
-    double end_time;
-};
-
-inline void ensure_data_dir() {
-    if (!std::filesystem::exists(DATA_FOLDER)) {
-        std::filesystem::create_directory(DATA_FOLDER);
-    }
-}
-inline std::string format_double(double x, int precision = 2) {
-    std::ostringstream out;
-    out << std::fixed << std::setprecision(precision) << x;
-    return out.str();
-}
-
-void process_test(const test_pack& test);
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -45,9 +20,9 @@ int main(int argc, char** argv) {
 
     if (mode == "auto") {
         std::vector<test_pack> tests = {
-            { {0.0, 5.0, 10.0, 20.0, 30.0, 40.0, 49.0}, -1.0, 1.0 },
-            { {1.0, 7.0, 15.0, 27.0, 35.0, 45.0, 50.0}, 0.0, 1.0 },
-            { {2.0, 12.0, 18.0, 25.0, 33.0, 41.0, 48.0}, 0.0, 2.0 }
+            { {0.0, 5.0, 20.0, 30.0, 49.0}, -1.0, 1.0 },
+            { {1.0, 15.0, 27.0, 45.0, 50.0}, 0.0, 1.0 },
+            { {2.0, 18.0, 33.0, 48.0}, 0.0, 2.0 }
         };
 
         for (const test_pack& test : tests) {
@@ -84,66 +59,4 @@ int main(int argc, char** argv) {
     }
 
     return 0;
-}
-
-
-void process_test(const test_pack& test) {
-    ensure_data_dir();
-
-    if (test.end_time <= test.start_time) {
-        std::cout << "Incorrect time was entered.\n";
-        return;
-    }
-
-    std::cout << "time range: [" << test.start_time << ", " << test.end_time << "]\n";
-    std::cout << "frequencies: ";
-    for (double freq : test.frequencies) {
-        std::cout << freq << " ";
-    }
-    std::cout << "\n\n";
-    
-    size_t size100 = static_cast<size_t>(
-        (test.end_time - test.start_time) * 100.0
-    );
-    size_t size200 = static_cast<size_t>(
-        (test.end_time - test.start_time) * 200.0
-    );
-    std::vector<double> hz100;
-    std::vector<double> hz200;
-    hz100.resize(size100);
-    hz200.resize(size200);
-    for (size_t i = 0; i < size100; ++i) {
-        hz100[i] = test.start_time + static_cast<double>(i) * 0.01;
-    }
-    for (size_t i = 0; i < size200; ++i) {
-        hz200[i] = test.start_time + static_cast<double>(i) * 0.005;
-    }
-
-    for (double frequency : test.frequencies) {
-        if (frequency < 0) {
-            std::cout << "Incorrect frequency was entered.\n";
-            return;
-        }
-
-        std::vector<std::vector<double>> sine_signal_for_csv(2);
-        sine_signal_for_csv[0] = hz100;
-        std::vector<double> sine_signal = generate_sine(
-            frequency,
-            test.start_time,
-            test.end_time
-        );
-        sine_signal_for_csv[1] = sine_signal;
-
-        std::string filename =
-            DATA_FOLDER + "signal_" +
-            format_double(frequency, 1) + "hz_from_" +
-            format_double(test.start_time, 1) + "_to_" +
-            format_double(test.end_time, 1) + ".csv";
-        csv_write(filename, sine_signal_for_csv); 
-     }
-
-    // генерация сигнала
-    // квантование
-    // интерполяция
-    // вывод статистики
 }
