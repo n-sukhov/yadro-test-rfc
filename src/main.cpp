@@ -10,6 +10,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <sstream>
+#include <cmath>
 #include <iomanip>
 
 const std::string DATA_FOLDER = "data/";
@@ -54,12 +55,16 @@ int main(int argc, char** argv) {
         }
     } else if (mode == "manual") {
         test_pack user_test;
-        size_t freq_count;
+        double freq_count;
 
         std::cout << "Enter number of frequencies: ";
         std::cin >> freq_count;
+        if (freq_count < 0 || freq_count != std::floor(freq_count)) {
+            std::cout << "Array can't have negative or float size.\n";
+            return 1;
+        }
 
-        user_test.frequencies.resize(freq_count);
+        user_test.frequencies.resize(static_cast<size_t>(freq_count));
 
         std::cout << "Enter frequencies:\n";
         for (size_t i = 0; i < freq_count; ++i) {
@@ -85,12 +90,17 @@ int main(int argc, char** argv) {
 void process_test(const test_pack& test) {
     ensure_data_dir();
 
+    if (test.end_time <= test.start_time) {
+        std::cout << "Incorrect time was entered.\n";
+        return;
+    }
+
     std::cout << "time range: [" << test.start_time << ", " << test.end_time << "]\n";
     std::cout << "frequencies: ";
     for (double freq : test.frequencies) {
         std::cout << freq << " ";
     }
-    std::cout << std::endl;
+    std::cout << "\n\n";
     
     size_t size100 = static_cast<size_t>(
         (test.end_time - test.start_time) * 100.0
@@ -110,6 +120,11 @@ void process_test(const test_pack& test) {
     }
 
     for (double frequency : test.frequencies) {
+        if (frequency < 0) {
+            std::cout << "Incorrect frequency was entered.\n";
+            return;
+        }
+
         std::vector<std::vector<double>> sine_signal_for_csv(2);
         sine_signal_for_csv[0] = hz100;
         std::vector<double> sine_signal = generate_sine(
