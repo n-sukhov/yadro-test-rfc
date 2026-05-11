@@ -11,7 +11,6 @@
 #include <cstdint>
 
 
-
 const std::string DATA_FOLDER = "data/";
 struct test_pack {
     std::vector<double> frequencies;

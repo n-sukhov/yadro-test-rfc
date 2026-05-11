@@ -7,17 +7,23 @@
 
 
 inline void ensure_data_dir() {
+    // Проверка наличия папки для сохранения сигналов / её создание
     if (!std::filesystem::exists(DATA_FOLDER)) {
         std::filesystem::create_directory(DATA_FOLDER);
     }
 }
 inline std::string format_double(double x, int precision) {
+    // Форматирование double для записи в названия файлов с заданной точностью
     std::ostringstream out;
     out << std::fixed << std::setprecision(precision) << x;
     return out.str();
 }
 
 void process_test(const test_pack& test) {
+    /* Получает структуру теста для генерации сигнала,
+    проверяет данные на корректность, сохраняет сигнал в csv-файл,
+    вызывает функцию для анализа ошибки квантования
+    */
     ensure_data_dir();
 
     if (test.end_time <= test.start_time) {
@@ -78,6 +84,13 @@ void analyze_test_signal(
     const std::vector<double>& hz100,
     const std::vector<double>& hz200
 ) {
+    /* Анализ ошибки квантования + сохранение в csv сигналов
+    для последующего анализа интерполяции
+    frequency : частота оригинального сигнала в гц
+    original_signal : оригинальный сигнал
+    hz100 : массив значений времени для частоты дискретизации 100гц
+    hz200 : массив значений времени для частоты дискретизации 200гц
+    */
     std::cout << "Frequency: " << frequency << " hz\n\n";
 
     std::vector<int16_t> q = quantize16(original_signal);
